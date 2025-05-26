@@ -100,7 +100,7 @@ export async function fetchEmployeeById(id: string): Promise<Employee | null> {
     const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
     const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
     
-    return {
+    const employee: Employee = {
       ...user,
       firstName,
       lastName,
@@ -114,6 +114,8 @@ export async function fetchEmployeeById(id: string): Promise<Employee | null> {
       projects: generateProjects(),
       feedback: generateFeedback()
     };
+    
+    return employee;
   } catch (error) {
     console.error(`Error fetching employee with ID ${id}:`, error);
     return null;
