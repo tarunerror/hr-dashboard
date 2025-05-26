@@ -5,6 +5,9 @@ import { EmployeeProfileSkeleton } from '@/components/employee/employee-profile-
 import { fetchEmployeeById } from '@/lib/data';
 import { notFound } from 'next/navigation';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function EmployeeDetailPage({ params }: { params: { id: string } }) {
   const employee = await fetchEmployeeById(params.id);
   

@@ -82,8 +82,15 @@ export async function fetchEmployees(): Promise<Employee[]> {
 
 export async function fetchEmployeeById(id: string): Promise<Employee | null> {
   try {
-    const response = await fetch(`https://dummyjson.com/users/${id}`);
+    const response = await fetch(`https://dummyjson.com/users/${id}`, {
+      next: { revalidate: 0 },
+      cache: 'no-store'
+    });
+    
     if (!response.ok) {
+      if (response.status === 404) {
+        return null;
+      }
       throw new Error(`Failed to fetch employee with ID ${id}`);
     }
     

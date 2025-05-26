@@ -1,3 +1,5 @@
+'use client';
+
 import { EmployeeHeader } from './employee-header';
 import { EmployeeTabs } from './employee-tabs';
 import { Employee } from '@/types/employee';
