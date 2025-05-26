@@ -6,9 +6,10 @@ import { SearchFilters } from '@/components/search/search-filters';
 import { CreateUserDialog } from '@/components/user/create-user-dialog';
 import { AuthCheck } from '@/components/auth/auth-check';
 import { fetchEmployees } from '@/lib/data';
+import { Employee } from '@/types/employee';
 
 export default async function Home() {
-  let employees = [];
+  let employees: Employee[] = [];
   try {
     employees = await fetchEmployees();
   } catch (error) {
