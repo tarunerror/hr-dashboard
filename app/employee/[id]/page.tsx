@@ -3,31 +3,30 @@ import { DashboardHeader } from '@/components/dashboard/dashboard-header';
 import { EmployeeProfile } from '@/components/employee/employee-profile';
 import { EmployeeProfileSkeleton } from '@/components/employee/employee-profile-skeleton';
 import { fetchEmployeeById } from '@/lib/data';
-import { notFound } from 'next/navigation';
-
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
 
 export default async function EmployeeDetailPage({ params }: { params: { id: string } }) {
-  try {
-    const employee = await fetchEmployeeById(params.id);
-    
-    if (!employee) {
-      notFound();
-    }
+  return (
+    <div className="min-h-screen">
+      <DashboardHeader />
+      <main className="container mx-auto px-4 py-8">
+        <Suspense fallback={<EmployeeProfileSkeleton />}>
+          <EmployeeProfile id={params.id} />
+        </Suspense>
+      </main>
+    </div>
+  );
+}
 
-    return (
-      <div className="min-h-screen">
-        <DashboardHeader />
-        <main className="container mx-auto px-4 py-8">
-          <Suspense fallback={<EmployeeProfileSkeleton />}>
-            <EmployeeProfile employee={employee} />
-          </Suspense>
-        </main>
-      </div>
-    );
+export async function generateStaticParams() {
+  try {
+    // Pre-generate only the first 3 employee pages to reduce build load
+    return Array.from({ length: 3 }, (_, i) => ({
+      id: String(i + 1),
+    }));
   } catch (error) {
-    console.error('Error loading employee:', error);
-    notFound();
+    // If there's any error during static params generation,
+    // return an empty array to prevent build failure
+    console.error('Error generating static params:', error);
+    return [];
   }
 }

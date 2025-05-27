@@ -82,15 +82,8 @@ export async function fetchEmployees(): Promise<Employee[]> {
 
 export async function fetchEmployeeById(id: string): Promise<Employee | null> {
   try {
-    const response = await fetch(`https://dummyjson.com/users/${id}`, {
-      next: { revalidate: 0 },
-      cache: 'no-store'
-    });
-    
+    const response = await fetch(`https://dummyjson.com/users/${id}`);
     if (!response.ok) {
-      if (response.status === 404) {
-        return null;
-      }
       throw new Error(`Failed to fetch employee with ID ${id}`);
     }
     
@@ -100,7 +93,7 @@ export async function fetchEmployeeById(id: string): Promise<Employee | null> {
     const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
     const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
     
-    const employee: Employee = {
+    return {
       ...user,
       firstName,
       lastName,
@@ -114,8 +107,6 @@ export async function fetchEmployeeById(id: string): Promise<Employee | null> {
       projects: generateProjects(),
       feedback: generateFeedback()
     };
-    
-    return employee;
   } catch (error) {
     console.error(`Error fetching employee with ID ${id}:`, error);
     return null;

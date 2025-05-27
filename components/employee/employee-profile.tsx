@@ -1,14 +1,16 @@
-'use client';
-
+import { Suspense } from 'react';
+import { fetchEmployeeById } from '@/lib/data';
 import { EmployeeHeader } from './employee-header';
 import { EmployeeTabs } from './employee-tabs';
-import { Employee } from '@/types/employee';
+import { notFound } from 'next/navigation';
 
-interface EmployeeProfileProps {
-  employee: Employee;
-}
+export async function EmployeeProfile({ id }: { id: string }) {
+  const employee = await fetchEmployeeById(id);
+  
+  if (!employee) {
+    notFound();
+  }
 
-export function EmployeeProfile({ employee }: EmployeeProfileProps) {
   return (
     <div className="space-y-6">
       <EmployeeHeader employee={employee} />

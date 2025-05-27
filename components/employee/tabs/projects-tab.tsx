@@ -16,6 +16,7 @@ interface ProjectsTabProps {
 }
 
 export function ProjectsTab({ projects }: ProjectsTabProps) {
+  // Sort projects by status (in-progress first, then planned, then completed)
   const sortedProjects = [...projects].sort((a, b) => {
     const statusOrder = { 'in-progress': 0, 'planned': 1, 'completed': 2 };
     return statusOrder[a.status] - statusOrder[b.status];

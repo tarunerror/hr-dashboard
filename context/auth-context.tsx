@@ -21,7 +21,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string) => {
-    
+    // Mock authentication
     if (email === 'admin@example.com' && password === 'password') {
       setIsAuthenticated(true);
       localStorage.setItem('isAuthenticated', 'true');
